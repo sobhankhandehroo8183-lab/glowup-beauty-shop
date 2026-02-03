@@ -1,13 +1,16 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom'; // ← useLocation اضافه شد
 import { CartContext } from '../context/CartContext';
+import { useProfile } from '../context/ProfileContext'; // ← اضافه شد
 import products from '../data/products';
 import { FaStar, FaShoppingCart, FaArrowRight, FaShareAlt, FaHeart } from 'react-icons/fa';
 
 const ProductDetail = () => {
-  const { id } = useParams();
+  const { id } = useParams();                 
   const navigate = useNavigate();
+  const location = useLocation(); // ← اضافه شد
   const { addToCart } = useContext(CartContext);
+  const { isProfileComplete } = useProfile(); // ← اضافه شد
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
   const [relatedProducts, setRelatedProducts] = useState([]);
@@ -23,7 +26,41 @@ const ProductDetail = () => {
     }
   }, [product]);
 
+  // =========================
+  // اجرای اکشن بعد از تکمیل پروفایل (بدون حذف هیچ خطی)
+  // =========================
+  useEffect(() => {
+    if (
+      isProfileComplete &&
+      location.state &&
+      location.state.from === `/product/${id}` &&
+      product
+    ) {
+      const { action, quantity: q } = location.state;
+
+      if (action === 'addToCart') {
+        addToCart(product, q);
+        alert(`${q} عدد ${product.name} به سبد خرید اضافه شد`);
+        navigate(location.pathname, { replace: true, state: null });
+      }
+
+      if (action === 'buyNow') {
+        addToCart(product, q);
+        navigate('/cart', { replace: true });
+      }
+    }
+  }, [isProfileComplete]);
+
+  // =========================
+  // تابع افزودن به سبد خرید با بررسی پروفایل و redirect
+  // =========================
   const handleAddToCart = () => {
+    if (!isProfileComplete) {
+      alert('لطفاً قبل از خرید، پروفایل خود را تکمیل کنید.');
+      navigate('/profile', { state: { from: `/product/${id}`, action: 'addToCart', quantity } });
+      return;
+    }
+
     if (product) {
       addToCart(product, quantity);
       alert(`${quantity} عدد ${product.name} به سبد خرید اضافه شد`);
@@ -31,6 +68,12 @@ const ProductDetail = () => {
   };
 
   const handleBuyNow = () => {
+    if (!isProfileComplete) {
+      alert('لطفاً قبل از خرید، پروفایل خود را تکمیل کنید.');
+      navigate('/profile', { state: { from: `/product/${id}`, action: 'buyNow', quantity } });
+      return;
+    }
+
     if (product) {
       addToCart(product, quantity);
       navigate('/cart');
@@ -187,14 +230,14 @@ const ProductDetail = () => {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <button
-                    onClick={handleAddToCart}
+                    onClick={handleAddToCart} // ← تغییر برای چک پروفایل و redirect
                     className="bg-pink-500 hover:bg-pink-600 text-white py-3 rounded-xl flex items-center justify-center space-x-2 space-x-reverse transition-colors"
                   >
                     <FaShoppingCart />
                     <span>افزودن به سبد خرید</span>
                   </button>
                   <button
-                    onClick={handleBuyNow}
+                    onClick={handleBuyNow} // ← تغییر برای چک پروفایل و redirect
                     className="bg-purple-500 hover:bg-purple-600 text-white py-3 rounded-xl flex items-center justify-center space-x-2 space-x-reverse transition-colors"
                   >
                     <span>خرید سریع</span>
@@ -232,6 +275,11 @@ const ProductDetail = () => {
                       <span className="text-lg font-bold text-gray-800">{relatedProduct.price.toLocaleString('fa-IR')} تومان</span>
                       <button
                         onClick={() => {
+                          if (!isProfileComplete) { // ← اضافه شد برای محصولات مرتبط با redirect
+                            alert('لطفاً قبل از خرید، پروفایل خود را تکمیل کنید.');
+                            navigate('/profile', { state: { from: `/product/${relatedProduct.id}`, action: 'addToCart', quantity: 1 } });
+                            return;
+                          }
                           addToCart(relatedProduct, 1);
                           alert(`${relatedProduct.name} به سبد خرید اضافه شد`);
                         }}
