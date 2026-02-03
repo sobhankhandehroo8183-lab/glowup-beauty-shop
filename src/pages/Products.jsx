@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom'; // ← useNavigate اضافه شد
 import ProductCard from '../components/ProductCard';
 import products from '../data/products';
 import { FaFilter, FaSortAmountDown, FaSortAmountUp } from 'react-icons/fa';
 
 const Products = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate(); // ← اضافه شد
+  const [searchParams, setSearchParams] = useState(() => new URLSearchParams());
   const [filteredProducts, setFilteredProducts] = useState(products);
   const [selectedCategory, setSelectedCategory] = useState('');
   const [sortBy, setSortBy] = useState('default');

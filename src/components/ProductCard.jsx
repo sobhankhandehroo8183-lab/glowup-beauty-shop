@@ -1,18 +1,18 @@
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { CartContext } from '../context/CartContext';
 import { FaShoppingCart, FaStar } from 'react-icons/fa';
 
 const ProductCard = ({ product }) => {
-  const { addToCart } = useContext(CartContext);
+  const { addToCartWithProfileCheck } = useContext(CartContext);
+  const navigate = useNavigate();
 
   const handleAddToCart = () => {
-    addToCart(product, 1);
+    addToCartWithProfileCheck(product, 1, navigate);
   };
 
   return (
     <div className="product-card bg-white rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden border border-gray-100">
-      {/* تصویر محصول */}
       <Link to={`/product/${product.id}`}>
         <div className="relative h-64 overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200">
           <img
@@ -34,35 +34,25 @@ const ProductCard = ({ product }) => {
         </div>
       </Link>
 
-      {/* محتوای کارت */}
       <div className="p-4">
-        {/* دسته‌بندی و رتبه‌بندی */}
         <div className="flex justify-between items-center mb-2">
-          <span className="text-sm text-gray-500">
-            {product.category}
-          </span>
-
+          <span className="text-sm text-gray-500">{product.category}</span>
           <div className="flex items-center space-x-1 space-x-reverse">
             <FaStar className="text-yellow-400" />
-            <span className="text-sm font-medium">
-              {product.rating}
-            </span>
+            <span className="text-sm font-medium">{product.rating}</span>
           </div>
         </div>
 
-        {/* نام محصول */}
         <Link to={`/product/${product.id}`}>
           <h3 className="font-semibold text-gray-800 hover:text-pink-500 transition-colors mb-2 line-clamp-2">
             {product.name}
           </h3>
         </Link>
 
-        {/* توضیحات کوتاه */}
         <p className="text-gray-600 text-sm mb-4 line-clamp-2">
           {product.description}
         </p>
 
-        {/* قیمت و دکمه خرید */}
         <div className="flex justify-between items-center">
           <span className="text-lg font-bold text-gray-800">
             {product.price.toLocaleString('fa-IR')} تومان

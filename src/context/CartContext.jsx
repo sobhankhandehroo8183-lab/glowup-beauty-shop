@@ -1,26 +1,22 @@
 import React, { createContext, useState, useEffect } from 'react';
+import { useProfile } from './ProfileContext';
 
 export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
-  /* =========================
-     State
-  ========================== */
+  const { profileCompletedOnce } = useProfile(); // ✅ منبع واحد
+
   const [cart, setCart] = useState(() => {
-    const savedCart = localStorage.getItem('glowup-cart');
+    const savedCart =
+      sessionStorage.getItem('glowup-cart') ||
+      localStorage.getItem('glowup-cart');
     return savedCart ? JSON.parse(savedCart) : [];
   });
 
-  /* =========================
-     Effects
-  ========================== */
   useEffect(() => {
     localStorage.setItem('glowup-cart', JSON.stringify(cart));
+    sessionStorage.setItem('glowup-cart', JSON.stringify(cart));
   }, [cart]);
-
-  /* =========================
-     Cart Actions
-  ========================== */
 
   const addToCart = (product, quantity = 1) => {
     setCart((prevCart) => {
@@ -63,11 +59,9 @@ export const CartProvider = ({ children }) => {
 
   const clearCart = () => {
     setCart([]);
+    sessionStorage.removeItem('glowup-cart');
+    localStorage.removeItem('glowup-cart');
   };
-
-  /* =========================
-     Calculations
-  ========================== */
 
   const getTotalPrice = () => {
     return cart.reduce(
@@ -83,15 +77,27 @@ export const CartProvider = ({ children }) => {
     );
   };
 
-  /* =========================
-     Provider
-  ========================== */
+  const addToCartWithProfileCheck = (
+    product,
+    quantity = 1,
+    navigate
+  ) => {
+    if (!profileCompletedOnce) {
+      alert('لطفاً قبل از خرید، پروفایل خود را تکمیل کنید.');
+      navigate('/profile');
+      return;
+    }
+
+    addToCart(product, quantity);
+    alert('محصول به سبد خرید اضافه شد');
+  };
 
   return (
     <CartContext.Provider
       value={{
         cart,
         addToCart,
+        addToCartWithProfileCheck,
         removeFromCart,
         updateQuantity,
         clearCart,

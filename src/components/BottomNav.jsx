@@ -1,34 +1,25 @@
-import React, { useContext } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useProfile } from '../context/ProfileContext';
 import { CartContext } from '../context/CartContext';
-import {
-  FaHome,
-  FaShoppingBag,
-  FaShoppingCart,
-  FaUser,
-  FaHeart,
-} from 'react-icons/fa';
+import { FaHome, FaShoppingBag, FaShoppingCart, FaUser, FaHeart } from 'react-icons/fa';
 
 const BottomNav = () => {
   const location = useLocation();
-  const { getTotalItems } = useContext(CartContext);
+  const navigate = useNavigate();
+  const { getTotalItems } = React.useContext(CartContext);
+  const { isProfileComplete } = useProfile();
 
   const navItems = [
     { path: '/', icon: <FaHome />, label: 'خانه' },
     { path: '/products', icon: <FaShoppingBag />, label: 'محصولات' },
-    {
-      path: '/cart',
-      icon: <FaShoppingCart />,
-      label: 'سبد خرید',
-      badge: getTotalItems(),
-    },
+    { path: '/cart', icon: <FaShoppingCart />, label: 'سبد خرید', badge: getTotalItems() },
     { path: '#wishlist', icon: <FaHeart />, label: 'علاقه‌مندی' },
-    { path: '#account', icon: <FaUser />, label: 'پروفایل' },
+    { path: '/profile', icon: <FaUser />, label: 'پروفایل' },
   ];
 
   return (
     <div className="md:hidden fixed bottom-0 left-0 right-0 z-50">
-      {/* Background with slight gradient for nicer UI */}
       <div className="bg-gradient-to-t from-white via-white to-pink-50 border-t border-gray-200 shadow-2xl">
         <div className="flex justify-around items-center h-16">
           {navItems.map((item) => {
@@ -46,9 +37,7 @@ const BottomNav = () => {
 
                 <span
                   className={`text-xs mt-1 transition-all duration-200 ${
-                    isActive
-                      ? 'text-pink-500 font-medium'
-                      : 'text-gray-500'
+                    isActive ? 'text-pink-500 font-medium' : 'text-gray-500'
                   }`}
                 >
                   {item.label}
@@ -75,13 +64,20 @@ const BottomNav = () => {
                 {ItemContent}
               </button>
             ) : (
-              <Link
+              <button
                 key={item.label}
-                to={item.path}
-                className="relative flex flex-col items-center justify-center w-full h-full"
+                type="button"
+                className="relative flex flex-col items-center justify-center w-full h-full focus:outline-none"
+                onClick={() => {
+                  // اگر پروفایل کامل نیست و کاربر روی پروفایل زد
+                  if (item.path === '/profile' && !isProfileComplete) {
+                    alert('لطفاً قبل از ادامه، پروفایل خود را کامل کنید');
+                  }
+                  navigate(item.path);
+                }}
               >
                 {ItemContent}
-              </Link>
+              </button>
             );
           })}
         </div>
