@@ -77,7 +77,7 @@ const products = [
     category: "پوست",
     rating: 4.7,
     popular: true,
-    image: "https://images.unsplash.com/photo-1556228574358-9a6b6b6f5b5d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=300&q=80"
+    image: "https://images.unsplash.com/photo-1556228574430-9d0f7d1751e5?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=300&q=80"
   },
   {
     id: 9,
@@ -137,7 +137,7 @@ const products = [
     category: "پوست",
     rating: 4.8,
     popular: true,
-    image: "https://images.unsplash.com/photo-1556228574358-9a6b6b6f5b5d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=300&q=80"
+    image: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=300&q=80"
   },
   {
     id: 15,
