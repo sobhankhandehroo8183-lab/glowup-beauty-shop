@@ -7,7 +7,7 @@ const products = [
     category: "لب",
     rating: 4.8,
     popular: true,
-    image: "https://images.unsplash.com/photo-1588776814546-c6aa69f6a0e1?&w=300&h=300&fit=crop"
+    image: "https://images.unsplash.com/photo-1586495777744-4413f21062fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80"
   },
   {
     id: 2,
@@ -17,7 +17,7 @@ const products = [
     category: "پوست",
     rating: 4.5,
     popular: true,
-    image: "https://images.unsplash.com/photo-1595992445646-7dbf8a02b86c?&w=300&h=300&fit=crop"
+    image: "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80"
   },
   {
     id: 3,
@@ -27,7 +27,7 @@ const products = [
     category: "چشم",
     rating: 4.3,
     popular: false,
-    image: "https://images.unsplash.com/photo-1582719478170-4e8a0f6a3b2e?&w=300&h=300&fit=crop"
+    image: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80"
   },
   {
     id: 4,
@@ -37,7 +37,7 @@ const products = [
     category: "چشم",
     rating: 4.6,
     popular: true,
-    image: "https://images.unsplash.com/photo-1584995093695-7f0f23e97960?&w=300&h=300&fit=crop"
+    image: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80"
   },
   {
     id: 5,
@@ -47,7 +47,7 @@ const products = [
     category: "پوست",
     rating: 4.9,
     popular: true,
-    image: "https://images.unsplash.com/photo-1591622772708-72a63c7465c6?&w=300&h=300&fit=crop"
+    image: "https://images.unsplash.com/photo-1556228574443-f4be0a69df60?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80"
   },
   {
     id: 6,
@@ -57,7 +57,7 @@ const products = [
     category: "مو",
     rating: 4.4,
     popular: false,
-    image: "https://images.unsplash.com/photo-1600180758868-f603f48e625d?&w=300&h=300&fit=crop"
+    image: "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80"
   },
   {
     id: 7,
@@ -67,7 +67,7 @@ const products = [
     category: "لب",
     rating: 4.2,
     popular: false,
-    image: "https://images.unsplash.com/photo-1597547479480-3c0d02cb0de5?&w=300&h=300&fit=crop"
+    image: "https://images.unsplash.com/photo-1596703923338-48f1c07e4f2e?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80"
   },
   {
     id: 8,
@@ -77,7 +77,7 @@ const products = [
     category: "پوست",
     rating: 4.7,
     popular: true,
-    image: "https://images.unsplash.com/photo-1600180758901-b7aa4f62e569?&w=300&h=300&fit=crop"
+    image: "https://images.unsplash.com/photo-1556228574430-9d0f7d1751e5?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80"
   },
   {
     id: 9,
@@ -87,7 +87,7 @@ const products = [
     category: "مو",
     rating: 4.3,
     popular: true,
-    image: "https://images.unsplash.com/photo-1600180758885-4e8a8c6d6b2e?&w=300&h=300&fit=crop"
+    image: "https://images.unsplash.com/photo-1556228574359-2d0b9c3d36f3?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80"
   },
   {
     id: 10,
@@ -97,9 +97,8 @@ const products = [
     category: "چشم",
     rating: 4.5,
     popular: false,
-    image: "https://images.unsplash.com/photo-1588776814515-4d6a0f9b8b4e?&w=300&h=300&fit=crop"
+    image: "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80"
   },
-  // محصولات جدید اضافه شده
   {
     id: 11,
     name: "رژ لب صورتی شاین",
@@ -108,7 +107,7 @@ const products = [
     category: "لب",
     rating: 4.6,
     popular: true,
-    image: "https://images.unsplash.com/photo-1600180758924-6e6a8c8b4c2e?&w=300&h=300&fit=crop"
+    image: "https://images.unsplash.com/photo-1586495777744-4413f21062fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80"
   },
   {
     id: 12,
@@ -118,7 +117,7 @@ const products = [
     category: "پوست",
     rating: 4.5,
     popular: true,
-    image: "https://images.unsplash.com/photo-1600180758906-7b7a8c7d5e4f?&w=300&h=300&fit=crop"
+    image: "https://images.unsplash.com/photo-1556228574103-2f2c6f6f5b5d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80"
   },
   {
     id: 13,
@@ -128,7 +127,7 @@ const products = [
     category: "چشم",
     rating: 4.7,
     popular: true,
-    image: "https://images.unsplash.com/photo-1600180758911-6e6a8b7c5d2e?&w=300&h=300&fit=crop"
+    image: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80"
   },
   {
     id: 14,
@@ -138,17 +137,27 @@ const products = [
     category: "پوست",
     rating: 4.8,
     popular: true,
-    image: "https://images.unsplash.com/photo-1600180758915-7f6a8d7b5e4c?&w=300&h=300&fit=crop"
+    image: "https://images.unsplash.com/photo-1556228574358-9a6b6b6f5b5d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80"
   },
   {
     id: 15,
     name: "لاک ناخن قرمز کلاسیک",
     description: "لاک با رنگ شفاف و ماندگاری بالا",
     price: 60000,
-    category: "لب",
+    category: "ناخن",
     rating: 4.3,
     popular: false,
-    image: "https://images.unsplash.com/photo-1600180758919-6e6a8f7b5c4e?&w=300&h=300&fit=crop"
+    image: "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80"
+  },
+  {
+    id: 16,
+    name: "پنکیک پودری مات",
+    description: "پودری سبک با پوشش عالی و ماندگاری بالا",
+    price: 110000,
+    category: "پوست",
+    rating: 4.6,
+    popular: true,
+    image: "https://images.unsplash.com/photo-1585238342024-78d387f4a707?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80"
   }
 ];
 
