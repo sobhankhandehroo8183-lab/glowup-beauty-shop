@@ -5,7 +5,18 @@ import ProductCard from '../components/ProductCard';
 import products from '../data/products';
 
 const Home = () => {
-  const popularProducts = products.filter(product => product.popular);
+  // اضافه کردن تصاویر متفاوت برای محصولات صفحه اصلی
+  const popularProducts = products.filter(product => product.popular)
+    .map(product => ({
+      ...product,
+      // ID متفاوت برای جلوگیری از تداخل با صفحه محصولات
+      homeId: `home-${product.id}`,
+      // تصویر متفاوت با سایز بزرگتر و کراپ متفاوت
+      homeImage: product.image
+        .replace('w=300', 'w=400')
+        .replace('h=300', 'h=400')
+        .replace('fit=crop', 'fit=crop&crop=faces')
+    }));
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-pink-50 to-pink-100">
@@ -32,7 +43,14 @@ const Home = () => {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {popularProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
+              <ProductCard 
+                key={product.homeId} 
+                product={{
+                  ...product,
+                  id: product.homeId, // استفاده از ID متفاوت
+                  image: product.homeImage // استفاده از تصویر متفاوت
+                }} 
+              />
             ))}
           </div>
         </div>
@@ -69,7 +87,7 @@ const Home = () => {
           <div className="relative rounded-2xl p-8 text-white text-center bg-gradient-to-r from-pink-500 to-purple-500 overflow-hidden shadow-lg">
             {/* تصویر پس‌زمینه محو شده */}
             <img
-              src="https://images.unsplash.com/photo-1600180758895-62f0a0be5d45?w=1600"
+              src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&h=400&q=80"
               alt="Promotion"
               className="absolute inset-0 w-full h-full object-cover opacity-20 rounded-2xl"
             />

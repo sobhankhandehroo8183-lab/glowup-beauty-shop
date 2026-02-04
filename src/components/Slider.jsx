@@ -7,7 +7,7 @@ const Slider = () => {
       id: 1,
       title: "تابستانی درخشان",
       subtitle: "مجموعه جدید محصولات تابستانه",
-      image: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=1200&h=400&fit=crop",
+      image: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=400&q=80&crop=faces",
       link: "/products",
       bgColor: "from-pink-50 to-purple-50"
     },
@@ -15,7 +15,7 @@ const Slider = () => {
       id: 2,
       title: "تخفیف‌های ویژه",
       subtitle: "تا ۴۰٪ تخفیف روی تمام محصولات",
-      image: "https://images.unsplash.com/photo-1556228578-9c360e1d8d34?w=1200&h=400&fit=crop",
+      image: "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=400&q=80",
       link: "/products",
       bgColor: "from-purple-50 to-blue-50"
     },
@@ -23,9 +23,17 @@ const Slider = () => {
       id: 3,
       title: "محصولات ارگانیک",
       subtitle: "طبیعی و بدون مواد شیمیایی",
-      image: "https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?w=1200&h=400&fit=crop",
+      image: "https://images.unsplash.com/photo-1556228574443-f4be0a69df60?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=400&q=80",
       link: "/products",
       bgColor: "from-blue-50 to-green-50"
+    },
+    {
+      id: 4,
+      title: "آرایش حرفه‌ای",
+      subtitle: "ابزارهای با کیفیت برای آرایشگران",
+      image: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=400&q=80",
+      link: "/products",
+      bgColor: "from-green-50 to-yellow-50"
     }
   ];
 
@@ -66,21 +74,21 @@ const Slider = () => {
               src={slide.image}
               alt={slide.title}
               loading="lazy"
-              className="absolute inset-0 w-full h-full object-cover mix-blend-overlay"
+              className="absolute inset-0 w-full h-full object-cover opacity-90"
             />
 
             <div className="absolute inset-0 flex items-center">
               <div className="container mx-auto px-8">
-                <div className="max-w-md backdrop-blur-sm bg-white/60 p-6 rounded-2xl">
+                <div className="max-w-md backdrop-blur-sm bg-white/70 p-6 rounded-2xl shadow-lg">
                   <h2 className="text-4xl font-bold text-gray-800 mb-4">
                     {slide.title}
                   </h2>
-                  <p className="text-lg text-gray-600 mb-6">
+                  <p className="text-lg text-gray-700 mb-6">
                     {slide.subtitle}
                   </p>
                   <Link
                     to={slide.link}
-                    className="inline-block bg-pink-500 hover:bg-pink-600 active:scale-95 text-white px-8 py-3 rounded-xl text-lg transition-all shadow"
+                    className="inline-block bg-pink-500 hover:bg-pink-600 active:scale-95 text-white px-8 py-3 rounded-xl text-lg transition-all shadow-lg"
                   >
                     مشاهده محصولات
                   </Link>
@@ -94,7 +102,7 @@ const Slider = () => {
       {/* دکمه‌های کنترل */}
       <button
         onClick={prevSlide}
-        className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white p-3 rounded-full shadow-lg transition"
+        className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white p-3 rounded-full shadow-lg transition"
       >
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
@@ -103,7 +111,7 @@ const Slider = () => {
 
       <button
         onClick={nextSlide}
-        className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white p-3 rounded-full shadow-lg transition"
+        className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white p-3 rounded-full shadow-lg transition"
       >
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
@@ -119,7 +127,7 @@ const Slider = () => {
             className={`h-3 rounded-full transition-all duration-300 ${
               index === currentSlide
                 ? 'w-8 bg-pink-500'
-                : 'w-3 bg-white/60 hover:bg-white'
+                : 'w-3 bg-white/80 hover:bg-white'
             }`}
           />
         ))}
