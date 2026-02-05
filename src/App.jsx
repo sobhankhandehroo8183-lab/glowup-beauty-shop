@@ -14,7 +14,7 @@ import Home from './pages/Home';
 import Products from './pages/Products';
 import ProductDetail from './pages/ProductDetail';
 import Cart from './pages/Cart';
-import Profile from './pages/Profile';  // ← اضافه شد
+import Profile from './pages/Profile';
 
 function App() {
   return (
@@ -29,7 +29,7 @@ function App() {
               <Route path="/products" element={<Products />} />
               <Route path="/product/:id" element={<ProductDetail />} />
               <Route path="/cart" element={<Cart />} />
-              <Route path="/profile" element={<Profile />} /> {/* ← اضافه شد */}
+              <Route path="/profile" element={<Profile />} />
             </Routes>
           </main>
 

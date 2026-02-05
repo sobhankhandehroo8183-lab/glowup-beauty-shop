@@ -10,7 +10,7 @@ const ProductDetail = () => {
   const navigate = useNavigate();
   const location = useLocation(); // ← اضافه شد
   const { addToCart } = useContext(CartContext);
-  const { isProfileComplete } = useProfile(); // ← اضافه شد
+  const { isProfileComplete, isAuthenticated } = useProfile(); // 🔹 isAuthenticated اضافه شد
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
   const [relatedProducts, setRelatedProducts] = useState([]);
@@ -52,12 +52,44 @@ const ProductDetail = () => {
   }, [isProfileComplete]);
 
   // =========================
+  // تابع چک کردن کاربر (اضافه شده)
+  // =========================
+  const checkUserAuth = (actionType = 'addToCart') => {
+    // 🔹 اول چک کن کاربر لاگین کرده یا نه
+    if (!isAuthenticated) {
+      alert('لطفاً ابتدا وارد حساب کاربری خود شوید');
+      navigate('/profile', { 
+        state: { 
+          from: `/product/${id}`, 
+          action: actionType, 
+          quantity 
+        } 
+      });
+      return false;
+    }
+    
+    // 🔹 اگر لاگین کرده اما پروفایل کامل نیست
+    if (!isProfileComplete) {
+      alert('لطفاً پروفایل خود را تکمیل کنید');
+      navigate('/profile', { 
+        state: { 
+          from: `/product/${id}`, 
+          action: actionType, 
+          quantity 
+        } 
+      });
+      return false;
+    }
+    
+    return true;
+  };
+
+  // =========================
   // تابع افزودن به سبد خرید با بررسی پروفایل و redirect
   // =========================
   const handleAddToCart = () => {
-    if (!isProfileComplete) {
-      alert('لطفاً قبل از خرید، پروفایل خود را تکمیل کنید.');
-      navigate('/profile', { state: { from: `/product/${id}`, action: 'addToCart', quantity } });
+    // 🔹 استفاده از تابع چک کاربر
+    if (!checkUserAuth('addToCart')) {
       return;
     }
 
@@ -68,9 +100,8 @@ const ProductDetail = () => {
   };
 
   const handleBuyNow = () => {
-    if (!isProfileComplete) {
-      alert('لطفاً قبل از خرید، پروفایل خود را تکمیل کنید.');
-      navigate('/profile', { state: { from: `/product/${id}`, action: 'buyNow', quantity } });
+    // 🔹 استفاده از تابع چک کاربر
+    if (!checkUserAuth('buyNow')) {
       return;
     }
 
@@ -275,11 +306,31 @@ const ProductDetail = () => {
                       <span className="text-lg font-bold text-gray-800">{relatedProduct.price.toLocaleString('fa-IR')} تومان</span>
                       <button
                         onClick={() => {
-                          if (!isProfileComplete) { // ← اضافه شد برای محصولات مرتبط با redirect
-                            alert('لطفاً قبل از خرید، پروفایل خود را تکمیل کنید.');
-                            navigate('/profile', { state: { from: `/product/${relatedProduct.id}`, action: 'addToCart', quantity: 1 } });
+                          // 🔹 اضافه شده: چک کامل کاربر برای محصولات مرتبط
+                          if (!isAuthenticated) {
+                            alert('لطفاً ابتدا وارد حساب کاربری خود شوید');
+                            navigate('/profile', { 
+                              state: { 
+                                from: `/product/${relatedProduct.id}`, 
+                                action: 'addToCart', 
+                                quantity: 1 
+                              } 
+                            });
                             return;
                           }
+                          
+                          if (!isProfileComplete) {
+                            alert('لطفاً پروفایل خود را تکمیل کنید');
+                            navigate('/profile', { 
+                              state: { 
+                                from: `/product/${relatedProduct.id}`, 
+                                action: 'addToCart', 
+                                quantity: 1 
+                              } 
+                            });
+                            return;
+                          }
+                          
                           addToCart(relatedProduct, 1);
                           alert(`${relatedProduct.name} به سبد خرید اضافه شد`);
                         }}

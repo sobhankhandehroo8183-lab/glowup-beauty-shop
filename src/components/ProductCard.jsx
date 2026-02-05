@@ -1,13 +1,28 @@
 import React, { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { CartContext } from '../context/CartContext';
+import { useProfile } from '../context/ProfileContext'; // 🔹 اضافه شد
 import { FaShoppingCart, FaStar } from 'react-icons/fa';
 
 const ProductCard = ({ product }) => {
   const { addToCartWithProfileCheck } = useContext(CartContext);
+  const { isAuthenticated } = useProfile(); // 🔹 اضافه شد
   const navigate = useNavigate();
 
   const handleAddToCart = () => {
+    // 🔹 اضافه شده: چک کردن لاگین کاربر
+    if (!isAuthenticated) {
+      alert('لطفاً ابتدا وارد حساب کاربری خود شوید');
+      navigate('/profile', { 
+        state: { 
+          from: `/product/${product.id}`, 
+          action: 'addToCart',
+          quantity: 1
+        } 
+      });
+      return;
+    }
+    
     addToCartWithProfileCheck(product, 1, navigate);
   };
 

@@ -1,6 +1,7 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react'; // 🔹 useEffect اضافه شد
 import { useNavigate } from 'react-router-dom';
 import { CartContext } from '../context/CartContext';
+import { useProfile } from '../context/ProfileContext'; // 🔹 اضافه شد
 import { FaTrash, FaPlus, FaMinus, FaShoppingBag, FaArrowLeft } from 'react-icons/fa';
 
 const Cart = () => {
@@ -10,20 +11,122 @@ const Cart = () => {
     updateQuantity, 
     clearCart, 
     getTotalPrice,
-    getTotalItems 
+    getTotalItems,
+    addToCartWithFullCheck // 🔹 اضافه شد
   } = useContext(CartContext);
   
+  const { isAuthenticated, isProfileComplete } = useProfile(); // 🔹 اضافه شد
   const navigate = useNavigate();
+
+  // 🔹 اضافه شده: چک کردن دسترسی کاربر به صفحه سبد خرید
+  useEffect(() => {
+    if (!isAuthenticated) {
+      alert('لطفاً ابتدا وارد حساب کاربری خود شوید');
+      navigate('/profile', { 
+        state: { 
+          from: '/cart',
+          action: 'viewCart'
+        } 
+      });
+      return;
+    }
+    
+    if (!isProfileComplete) {
+      alert('لطفاً پروفایل خود را تکمیل کنید');
+      navigate('/profile', { 
+        state: { 
+          from: '/cart',
+          action: 'viewCart'
+        } 
+      });
+      return;
+    }
+  }, [isAuthenticated, isProfileComplete, navigate]);
 
   const handleCheckout = () => {
     if (!cart.length) {
       alert('سبد خرید شما خالی است');
       return;
     }
+    
+    // 🔹 اضافه شده: چک نهایی قبل از پرداخت
+    if (!isAuthenticated) {
+      alert('لطفاً ابتدا وارد حساب کاربری خود شوید');
+      navigate('/profile', { 
+        state: { 
+          from: '/cart',
+          action: 'checkout'
+        } 
+      });
+      return;
+    }
+    
+    if (!isProfileComplete) {
+      alert('لطفاً پروفایل خود را تکمیل کنید');
+      navigate('/profile', { 
+        state: { 
+          from: '/cart',
+          action: 'checkout'
+        } 
+      });
+      return;
+    }
+    
     alert(`خرید شما با مبلغ ${getTotalPrice().toLocaleString('fa-IR')} تومان ثبت شد!`);
     clearCart();
     navigate('/');
   };
+
+  // 🔹 اضافه شده: تابع برای افزودن محصولات پیشنهادی با چک کاربر
+  const handleAddSuggestedProduct = (product, index) => {
+    if (!isAuthenticated) {
+      alert('لطفاً ابتدا وارد حساب کاربری خود شوید');
+      navigate('/profile', { 
+        state: { 
+          from: `/product/${index + 9}`,
+          action: 'addToCart',
+          quantity: 1
+        } 
+      });
+      return;
+    }
+    
+    if (!isProfileComplete) {
+      alert('لطفاً پروفایل خود را تکمیل کنید');
+      navigate('/profile', { 
+        state: { 
+          from: `/product/${index + 9}`,
+          action: 'addToCart',
+          quantity: 1
+        } 
+      });
+      return;
+    }
+    
+    // ساخت یک محصول شبیه‌سازی شده برای افزودن
+    const suggestedProduct = {
+      id: index + 100, // ID متفاوت برای محصولات پیشنهادی
+      name: product.name,
+      price: product.price,
+      image: product.image,
+      category: "پیشنهادی"
+    };
+    
+    // استفاده از تابع addToCartWithFullCheck که چک کاربر را انجام می‌دهد
+    addToCartWithFullCheck(suggestedProduct, 1, navigate);
+  };
+
+  // 🔹 اضافه شده: اگر کاربر لاگین نکرده، صفحه خالی نشان داده شود تا useEffect کار کند
+  if (!isAuthenticated || !isProfileComplete) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12">
+        <div className="text-center max-w-md">
+          <div className="text-5xl mb-4">⏳</div>
+          <h1 className="text-xl font-bold text-gray-800 mb-4">در حال بررسی دسترسی...</h1>
+        </div>
+      </div>
+    );
+  }
 
   if (!cart.length) {
     return (
@@ -248,7 +351,15 @@ const Cart = () => {
                 <h3 className="font-semibold text-gray-800 text-sm mb-2">{product.name}</h3>
                 <div className="flex justify-between items-center">
                   <span className="font-bold text-gray-800 text-sm">{product.price.toLocaleString('fa-IR')} تومان</span>
-                  <button className="text-xs bg-pink-500 hover:bg-pink-600 text-white px-3 py-1 rounded">افزودن</button>
+                  <button 
+                    onClick={(e) => {
+                      e.stopPropagation(); // جلوگیری از اجرای onClick والد
+                      handleAddSuggestedProduct(product, index);
+                    }}
+                    className="text-xs bg-pink-500 hover:bg-pink-600 text-white px-3 py-1 rounded"
+                  >
+                    افزودن
+                  </button>
                 </div>
               </div>
             ))}

@@ -4,7 +4,7 @@ import { useProfile } from './ProfileContext';
 export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
-  const { profileCompletedOnce } = useProfile(); // ✅ منبع واحد
+  const { profileCompletedOnce, isAuthenticated } = useProfile(); // 🔹 isAuthenticated اضافه شد
 
   const [cart, setCart] = useState(() => {
     const savedCart =
@@ -17,6 +17,41 @@ export const CartProvider = ({ children }) => {
     localStorage.setItem('glowup-cart', JSON.stringify(cart));
     sessionStorage.setItem('glowup-cart', JSON.stringify(cart));
   }, [cart]);
+
+  // 🔹 اضافه شده: تابع چک کردن کاربر قبل از هر عملیات سبد خرید
+  const checkUserBeforeCartOperation = (navigate, actionType = 'addToCart', product = null) => {
+    // اول چک کن کاربر لاگین کرده یا نه
+    if (!isAuthenticated) {
+      alert('لطفاً ابتدا وارد حساب کاربری خود شوید');
+      if (navigate) {
+        navigate('/profile', { 
+          state: { 
+            from: product ? `/product/${product.id}` : '/cart',
+            action: actionType,
+            quantity: 1
+          } 
+        });
+      }
+      return false;
+    }
+    
+    // اگر لاگین کرده اما پروفایل کامل نیست
+    if (!profileCompletedOnce) {
+      alert('لطفاً پروفایل خود را تکمیل کنید');
+      if (navigate) {
+        navigate('/profile', { 
+          state: { 
+            from: product ? `/product/${product.id}` : '/cart',
+            action: actionType,
+            quantity: 1
+          } 
+        });
+      }
+      return false;
+    }
+    
+    return true;
+  };
 
   const addToCart = (product, quantity = 1) => {
     setCart((prevCart) => {
@@ -82,14 +117,28 @@ export const CartProvider = ({ children }) => {
     quantity = 1,
     navigate
   ) => {
-    if (!profileCompletedOnce) {
-      alert('لطفاً قبل از خرید، پروفایل خود را تکمیل کنید.');
-      navigate('/profile');
+    // 🔹 استفاده از تابع چک کاربر بهبود یافته
+    if (!checkUserBeforeCartOperation(navigate, 'addToCart', product)) {
       return;
     }
 
     addToCart(product, quantity);
     alert('محصول به سبد خرید اضافه شد');
+  };
+
+  // 🔹 اضافه شده: تابع addToCart با چک کامل کاربر
+  const addToCartWithFullCheck = (
+    product,
+    quantity = 1,
+    navigate
+  ) => {
+    // همان تابع قبلی با نام جدید برای سازگاری
+    return addToCartWithProfileCheck(product, quantity, navigate);
+  };
+
+  // 🔹 اضافه شده: تابع برای چک کردن دسترسی به سبد خرید
+  const checkCartAccess = (navigate) => {
+    return checkUserBeforeCartOperation(navigate, 'viewCart');
   };
 
   return (
@@ -98,11 +147,14 @@ export const CartProvider = ({ children }) => {
         cart,
         addToCart,
         addToCartWithProfileCheck,
+        addToCartWithFullCheck, // 🔹 اضافه شده
         removeFromCart,
         updateQuantity,
         clearCart,
         getTotalPrice,
         getTotalItems,
+        checkCartAccess, // 🔹 اضافه شده
+        checkUserBeforeCartOperation // 🔹 اضافه شده (برای استفاده داخلی)
       }}
     >
       {children}

@@ -1,10 +1,12 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { CartContext } from '../context/CartContext';
-import { FaShoppingCart, FaUser, FaSearch } from 'react-icons/fa';
+import { useProfile } from '../context/ProfileContext'; // 🔹 اضافه شد
+import { FaShoppingCart, FaUser, FaSearch, FaSignOutAlt } from 'react-icons/fa';
 
 const Header = () => {
   const { getTotalItems } = useContext(CartContext);
+  const { user, isAuthenticated, logout } = useProfile(); // 🔹 اضافه شد
 
   return (
     <header className="sticky top-0 z-50 bg-white shadow-md relative overflow-hidden">
@@ -54,9 +56,33 @@ const Header = () => {
               <FaSearch className="text-gray-600" />
             </button>
 
-            <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
-              <FaUser className="text-gray-600" />
-            </button>
+            {/* 🔹 تغییرات: نمایش وضعیت کاربر */}
+            {isAuthenticated ? (
+              <div className="flex items-center space-x-3 space-x-reverse">
+                <Link
+                  to="/profile"
+                  className="flex items-center space-x-1 space-x-reverse text-gray-700 hover:text-pink-500 transition-colors"
+                >
+                  <FaUser className="text-gray-600" />
+                  <span className="text-sm hidden md:inline">{user?.username}</span>
+                </Link>
+                <button
+                  onClick={logout}
+                  className="p-2 hover:bg-gray-100 rounded-full transition-colors text-red-500 hover:text-red-600"
+                  title="خروج"
+                >
+                  <FaSignOutAlt />
+                </button>
+              </div>
+            ) : (
+              <Link
+                to="/profile"
+                className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                title="ورود / ثبت‌نام"
+              >
+                <FaUser className="text-gray-600" />
+              </Link>
+            )}
 
             <Link
               to="/cart"
