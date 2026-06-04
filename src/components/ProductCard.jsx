@@ -51,7 +51,7 @@ const ProductCard = ({ product }) => {
             alt={product.name}
             loading="lazy"
             onError={(e) => {
-              e.currentTarget.src = '/src/assets/images/placeholder.jpg';
+             e.currentTarget.src = 'https://placehold.co/400x400/ff69b4/white?text=GlowUp';
             }}
             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
           />
