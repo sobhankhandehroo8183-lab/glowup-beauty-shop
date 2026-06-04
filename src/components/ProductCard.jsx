@@ -12,7 +12,7 @@ const ProductCard = ({ product }) => {
 
   const handleAddToCart = () => {
     if (!isAuthenticated) {
-      alert('لطفاً ابتدا وارد حساب کاربری خود شوید');
+      alert('💕 لطفاً ابتدا وارد حساب کاربری خود شوید');
       navigate('/profile', { 
         state: { 
           from: `/product/${product.id}`, 
@@ -27,7 +27,7 @@ const ProductCard = ({ product }) => {
 
   return (
     <div className="product-card-custom group bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden border border-pink-100 hover:border-pink-300 relative animate-scaleIn">
-      {/* برچسب پرفروش با طراحی جدید */}
+      {/* برچسب پرفروش */}
       {product.popular && (
         <div className="absolute top-3 left-3 z-10">
           <div className="bg-gradient-to-r from-pink-500 to-purple-500 text-white text-xs px-3 py-1.5 rounded-full shadow-lg animate-pulse">
@@ -40,6 +40,7 @@ const ProductCard = ({ product }) => {
       <button
         onClick={() => setIsLiked(!isLiked)}
         className="absolute top-3 right-3 z-10 bg-white/80 backdrop-blur-sm p-2 rounded-full shadow-md hover:shadow-lg transition-all duration-300 hover:scale-110"
+        aria-label="افزودن به علاقه‌مندی‌ها"
       >
         <FaHeart className={`text-lg transition-colors ${isLiked ? 'text-pink-500' : 'text-gray-400'}`} />
       </button>
@@ -50,12 +51,14 @@ const ProductCard = ({ product }) => {
             src={product.image}
             alt={product.name}
             loading="lazy"
+            decoding="async"
+            width="400"
+            height="400"
             onError={(e) => {
-             e.currentTarget.src = 'https://placehold.co/400x400/ff69b4/white?text=GlowUp';
+              e.currentTarget.src = 'https://placehold.co/400x400/ff69b4/white?text=GlowUp';
             }}
             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
           />
-          {/* Overlay شیشه‌ای روی hover */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         </div>
       </Link>
@@ -83,7 +86,7 @@ const ProductCard = ({ product }) => {
 
         <div className="flex justify-between items-center">
           <div>
-            <span className="text-xl font-bold gradient-text">
+            <span className="text-xl font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent">
               {product.price.toLocaleString('fa-IR')}
             </span>
             <span className="text-xs text-gray-400 mr-1">تومان</span>
@@ -91,7 +94,8 @@ const ProductCard = ({ product }) => {
 
           <button
             onClick={handleAddToCart}
-            className="btn-glow flex items-center gap-2 bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white px-4 py-2.5 rounded-xl transition-all duration-300 shadow-md hover:shadow-pink-500/30"
+            className="flex items-center gap-2 bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white px-4 py-2.5 rounded-xl transition-all duration-300 shadow-md hover:shadow-pink-500/30 active:scale-95"
+            aria-label="افزودن به سبد خرید"
           >
             <FaShoppingCart className="text-sm" />
             <span className="text-sm font-medium">افزودن</span>
