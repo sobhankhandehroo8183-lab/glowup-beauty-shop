@@ -48,17 +48,17 @@ const ProductCard = ({ product }) => {
       <Link to={`/product/${product.id}`}>
         <div className="relative h-64 overflow-hidden bg-gradient-to-br from-pink-100 to-purple-100">
           <img
-            src={product.image}
-            alt={product.name}
-            loading="lazy"
-            decoding="async"
-            width="400"
-            height="400"
-            onError={(e) => {
-              e.currentTarget.src = 'https://placehold.co/400x400/ff69b4/white?text=GlowUp';
-            }}
-            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
-          />
+  src={product.image}
+  alt={product.name}
+  loading="lazy"
+  decoding="async"
+  width="300"
+  height="300"
+  onError={(e) => {
+    e.currentTarget.src = 'https://placehold.co/400x400/ff69b4/white?text=GlowUp';
+  }}
+  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
+/>
           <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         </div>
       </Link>
